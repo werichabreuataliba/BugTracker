@@ -8,20 +8,35 @@ using BugTracker.Models;
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using BugTracker.Data;
+using BugTracker.Interfaces;
 
 namespace BugTracker.Controllers
 {
     public class HomeController : Controller
     {
         public MongoDBRepository mongoDB;
-        public HomeController(IOptions<Settings> settings)
+
+        private readonly IWorkItemService _workItemService;
+
+        public HomeController(IWorkItemService workItemService)
         {
-           mongoDB = new MongoDBRepository(settings);
+            _workItemService = workItemService;
         }
+
+        public ActionResult AddWorkItem()
+        {
+            return RedirectToAction("AddItem", "AddWorkItem");
+        }
+
+        //public HomeController(IOptions<Settings> settings)
+        //{
+        //   mongoDB = new MongoDBRepository(settings);
+        //}
 
         public IActionResult Index()
         {
-            return Json(mongoDB.DataBase.Client.Cluster.Description);
+            var workItems = _workItemService.GetAllWorkItems();
+            return View(workItems);
         }
 
         public IActionResult About()

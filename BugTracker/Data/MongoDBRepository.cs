@@ -11,6 +11,7 @@ namespace BugTracker.Data
     public class MongoDBRepository
     {
         public readonly IMongoDatabase DataBase;
+        public IMongoCollection<WorkItem> WorkItems => DataBase.GetCollection<WorkItem>("workitem");        
 
         public MongoDBRepository(IOptions<Settings> settings)
         {

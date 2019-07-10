@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BugTracker.Data;
+using BugTracker.Interfaces;
 using BugTracker.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,7 +36,7 @@ namespace BugTracker
                        options.Database =
                         Configuration.GetSection("MongoConnection:Database").Value;
                    }
-                );                
+                ).AddScoped<IWorkItemService, WorkItemService>();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
